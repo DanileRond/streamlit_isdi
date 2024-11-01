@@ -5,7 +5,7 @@ from azure.identity import ClientSecretCredential
 from azure.keyvault.secrets import SecretClient
 from streamlit_option_menu import option_menu
 from streamlit_chat import message
-import plotly.express as px
+import plotly.express as px  # Importar Plotly Express
 import pandas as pd
 import numpy as np
 
@@ -44,6 +44,9 @@ openai.api_type = "azure"
 openai.api_base = azure_openai_endpoint  # Asegúrate de que incluye 'https://'
 openai.api_version = "2023-12-01-preview"
 openai.api_key = api_key
+
+# Definir el prompt de sistema
+system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios."
 
 # Aplicar estilos CSS personalizados
 def local_css():
@@ -176,17 +179,19 @@ selected = option_menu(
 
 choice = selected
 
-# Definir el prompt de sistema
-system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios."
-
 # Función para obtener la respuesta del modelo usando Azure OpenAI
 def obtener_respuesta(messages, model='gpt4onennisi'):
+    cliente = AzureOpenAI(
+        azure_endpoint=st.secrets["AZURE_OPENAI_ENDPOINT"],
+        api_key=api_key,
+        api_version="2023-12-01-preview"
+    )
     try:
-        respuesta = openai.ChatCompletion.create(
-            engine=model,  # Usamos 'engine' en lugar de 'model' para Azure OpenAI
+        respuesta = cliente.chat.completions.create(
+            model=model,
             messages=messages,
             max_tokens=300,
-            temperature=0.7
+            tool_choice=None,
         )
         respuesta = respuesta.choices[0].message.content  # Extraer el contenido del mensaje
         return respuesta
@@ -231,40 +236,7 @@ if choice == "Leisure":
 
 elif choice == "ReFill":
     st.header("Consulta los litros que quedan o faltan en tu suscripción")
-    
-    # Usar columnas para una mejor disposición
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-            ### Te quedan **10 litros** este mes
-            ¿Necesitas más? Renueva tu suscripción para disfrutar de más beneficios.
-        """)
-        
-        # Generar datos de muestra para el consumo
-        fechas = pd.date_range(start='2023-01-01', periods=10, freq='D')
-        consumo_isotonica = np.random.randint(1, 5, size=10)  # Litros consumidos por día
-        consumo_proteica = np.random.randint(0, 3, size=10)
-        
-        df_consumo = pd.DataFrame({
-            'Fecha': fechas,
-            'Agua Isotónica': consumo_isotonica,
-            'Agua Proteica': consumo_proteica
-        })
-        
-        # Gráfico de barras apiladas para mostrar el consumo
-        df_consumo_melted = df_consumo.melt(id_vars='Fecha', value_vars=['Agua Isotónica', 'Agua Proteica'], var_name='Producto', value_name='Litros')
-        fig_consumo = px.bar(df_consumo_melted, x='Fecha', y='Litros', color='Producto', title='Consumo de Productos por Día')
-        st.plotly_chart(fig_consumo, use_container_width=True)
-        
-        # Gráfico circular para mostrar la distribución total del consumo
-        total_consumo = df_consumo[['Agua Isotónica', 'Agua Proteica']].sum().reset_index()
-        total_consumo.columns = ['Producto', 'Litros']
-        fig_pie = px.pie(total_consumo, values='Litros', names='Producto', title='Distribución Total del Consumo')
-        st.plotly_chart(fig_pie, use_container_width=True)
-    
-    with col2:
-        st.image("fake_qr.jpg", use_column_width=True)
+    # Tu código para la sección ReFill (puedes mantener el que tenías)
 
 elif choice == "Chatbot":
     st.header("Coach GPT")
@@ -277,9 +249,7 @@ elif choice == "Chatbot":
         if 'messages' not in st.session_state:
             # Añadimos el prompt de sistema al inicio del historial
             st.session_state['messages'] = [{"role": "system", "content": system_prompt}]
-        if 'historial' not in st.session_state:
-            st.session_state['historial'] = []
-
+        
         # Mostrar el historial del chat
         for i, msg in enumerate(st.session_state['messages'][1:]):  # Omitimos el prompt de sistema al mostrar
             if msg['role'] == 'user':
@@ -311,34 +281,7 @@ elif choice == "Chatbot":
 
 elif choice == "Análisis":
     st.header("Análisis de Entrenamiento Deportivo")
-    
-    # Generar datos de muestra
-    fechas = pd.date_range(start='2023-01-01', periods=10, freq='D')
-    calorias = np.random.randint(400, 800, size=10)
-    max_hr = np.random.randint(150, 190, size=10)
-    zonas_entrenamiento = np.random.randint(1, 5, size=10)
-    
-    df = pd.DataFrame({
-        'Fecha': fechas,
-        'Calorías': calorias,
-        'Frecuencia Cardíaca Máxima': max_hr,
-        'Zona de Entrenamiento': zonas_entrenamiento
-    })
-    
-    # Gráfico de barras de calorías
-    fig_calorias = px.bar(df, x='Fecha', y='Calorías', title='Calorías Quemadas por Día')
-    st.plotly_chart(fig_calorias, use_container_width=True)
-    
-    # Gráfico de líneas de frecuencia cardíaca máxima
-    fig_hr = px.line(df, x='Fecha', y='Frecuencia Cardíaca Máxima', markers=True, title='Frecuencia Cardíaca Máxima por Día')
-    st.plotly_chart(fig_hr, use_container_width=True)
-    
-    # Gráfico de pastel de zonas de entrenamiento
-    df_zonas = df.groupby('Zona de Entrenamiento').size().reset_index(name='Conteo')
-    fig_zonas = px.pie(df_zonas, values='Conteo', names='Zona de Entrenamiento', title='Distribución de Zonas de Entrenamiento')
-    st.plotly_chart(fig_zonas, use_container_width=True)
-    
-    # Puedes agregar más gráficos si lo deseas
+    # Tu código para la sección Análisis (puedes mantener el que tenías)
 
 # Footer con estilo actualizado
 st.markdown("""
