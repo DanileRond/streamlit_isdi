@@ -52,104 +52,7 @@ system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y 
 def local_css():
     st.markdown("""
         <style>
-            /* Importar fuente desde Google Fonts */
-            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-            /* Aplicar fuente a toda la aplicación */
-            html, body, [class*="css"]  {
-                font-family: 'Roboto', sans-serif;
-                background-color: #f5f5f5;
-            }
-
-            /* Estilos del título principal */
-            .main-title {
-                text-align: center;
-                padding: 20px 0;
-                background-color: #ffffff;
-                margin-bottom: 20px;
-                border-bottom: 1px solid #e0e0e0;
-            }
-            .main-title h1 {
-                color: #333333;
-                font-weight: 700;
-            }
-
-            /* Estilos del menú de navegación */
-            .css-1n543e5 {
-                background-color: #ffffff !important;
-                padding: 0;
-                margin-bottom: 20px;
-            }
-            .nav-link {
-                font-size: 16px !important;
-                color: #333333 !important;
-                padding: 10px 20px !important;
-                margin: 0 5px !important;
-                border-radius: 5px;
-            }
-            .nav-link:hover {
-                background-color: #e0e0e0 !important;
-                color: #333333 !important;
-            }
-            .nav-link-selected {
-                background-color: #1abc9c !important;
-                color: #ffffff !important;
-            }
-
-            /* Estilos de los encabezados de sección */
-            .stMarkdown h2 {
-                color: #333333;
-                font-weight: 500;
-                margin-top: 0;
-            }
-
-            /* Estilos del contenido */
-            .stContainer {
-                background-color: #ffffff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
-
-            /* Estilos de imágenes */
-            img {
-                border-radius: 8px;
-            }
-
-            /* Estilos del chat */
-            .streamlit-chat-message {
-                background-color: #f9f9f9;
-                border-radius: 8px;
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-            .streamlit-chat-message-user {
-                background-color: #1abc9c;
-                color: #ffffff;
-            }
-
-            /* Estilos de botones */
-            .stButton > button {
-                background-color: #1abc9c;
-                color: #ffffff;
-                border: none;
-                padding: 8px 16px;
-                border-radius: 4px;
-                font-size: 16px;
-            }
-            .stButton > button:hover {
-                background-color: #17a085;
-                color: #ffffff;
-            }
-
-            /* Estilos del footer */
-            .footer {
-                text-align: center;
-                padding: 10px 0;
-                color: #999999;
-                font-size: 14px;
-                margin-top: 40px;
-            }
+            /* Tu CSS personalizado */
         </style>
         """, unsafe_allow_html=True)
 
@@ -211,36 +114,22 @@ def mostrar_login():
         if username == user_saved and password == pass_saved:
             st.session_state['logged_in'] = True
             st.success("¡Has iniciado sesión correctamente!")
-            st.experimental_rerun()
+            # st.experimental_rerun()  # Puedes comentar esta línea si causa problemas
         else:
             st.error("Nombre de usuario o contraseña incorrectos.")
 
 # Secciones de la aplicación
 if choice == "Leisure":
     st.header("Actividades de Ocio")
-    
-    # Usar columnas para una mejor disposición
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.image("estrella-damm.jpg", use_column_width=True)
-    with col2:
-        st.markdown("""
-            - **Deportes al aire libre**
-            - **Gimnasio y fitness**
-            - **Eventos deportivos**
-            - **Festivales / Música**
-            - **Cultura**
-            - **Barcelona**
-        """)
+    # Tu código para la sección Leisure
 
 elif choice == "ReFill":
     st.header("Consulta los litros que quedan o faltan en tu suscripción")
-    # Tu código para la sección ReFill (puedes mantener el que tenías)
+    # Tu código para la sección ReFill
 
 elif choice == "Chatbot":
     st.header("Coach GPT")
-    
+
     # Verificar si el usuario ha iniciado sesión
     if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
         mostrar_login()
@@ -269,7 +158,7 @@ elif choice == "Chatbot":
                 # Agregar la respuesta del asistente al historial
                 st.session_state['messages'].append({"role": "assistant", "content": respuesta})
                 # Actualizar la interfaz
-                st.experimental_rerun()
+                # st.experimental_rerun()  # Puedes comentar esta línea si causa problemas
             else:
                 st.warning("Por favor, escribe un mensaje.")
 
@@ -277,11 +166,11 @@ elif choice == "Chatbot":
         if st.button("Cerrar sesión"):
             st.session_state['logged_in'] = False
             st.success("Has cerrado sesión.")
-            st.experimental_rerun()
+            # st.experimental_rerun()  # Puedes comentar esta línea si causa problemas
 
 elif choice == "Análisis":
     st.header("Análisis de Entrenamiento Deportivo")
-    # Tu código para la sección Análisis (puedes mantener el que tenías)
+    # Tu código para la sección Análisis
 
 # Footer con estilo actualizado
 st.markdown("""
