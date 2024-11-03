@@ -46,7 +46,7 @@ openai.api_version = "2023-12-01-preview"
 openai.api_key = api_key
 
 # Definir el prompt de sistema
-system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios. Intenta dar respuestas cortas, reduciendo el número de tokens/palabras necesarias en tu explicación."
+system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios. Utiliza el mínimo número de palabras y más óptimo para dar tu explicación."
 
 # Aplicar estilos CSS personalizados
 def local_css():
@@ -116,6 +116,7 @@ def mostrar_login():
             if username == user_saved and password == pass_saved:
                 st.session_state['logged_in'] = True
                 st.success("¡Has iniciado sesión correctamente!")
+                st.rerun()  # Forzar recarga del script
             else:
                 st.error("Nombre de usuario o contraseña incorrectos.")
 
@@ -132,7 +133,10 @@ elif choice == "Chatbot":
     st.header("Coach GPT")
 
     # Verificar si el usuario ha iniciado sesión
-    if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
+    if 'logged_in' not in st.session_state:
+        st.session_state['logged_in'] = False
+
+    if not st.session_state['logged_in']:
         mostrar_login()
     else:
         # Inicializar variables de sesión si no existen
@@ -159,15 +163,16 @@ elif choice == "Chatbot":
                     respuesta = obtener_respuesta(st.session_state['messages'])
                     # Agregar la respuesta del asistente al historial
                     st.session_state['messages'].append({"role": "assistant", "content": respuesta})
+                    st.rerun()  # Forzar recarga para actualizar el chat
                 else:
                     st.warning("Por favor, escribe un mensaje.")
 
         # Botón para cerrar sesión
-        with st.form(key='logout_form'):
-            submit_button = st.form_submit_button(label='Cerrar sesión')
-            if submit_button:
-                st.session_state['logged_in'] = False
-                st.success("Has cerrado sesión.")
+        if st.button("Cerrar sesión"):
+            st.session_state['logged_in'] = False
+            st.session_state['messages'] = []  # Opcional: limpiar el historial de mensajes
+            st.success("Has cerrado sesión.")
+            st.rerun()  # Forzar recarga del script
 
 elif choice == "Análisis":
     st.header("Análisis de Entrenamiento Deportivo")
