@@ -106,17 +106,18 @@ def obtener_respuesta(messages, model='gpt4onennisi'):
 # Función para mostrar el formulario de login
 def mostrar_login():
     st.subheader("Por favor, inicia sesión para acceder al chatbot.")
-    username = st.text_input("Nombre de usuario")
-    password = st.text_input("Contraseña", type="password")
     user_saved = st.secrets["username"]
     pass_saved = st.secrets["password"]
-    if st.button("Iniciar sesión"):
-        if username == user_saved and password == pass_saved:
-            st.session_state['logged_in'] = True
-            st.success("¡Has iniciado sesión correctamente!")
-            # st.experimental_rerun()  # Puedes comentar esta línea si causa problemas
-        else:
-            st.error("Nombre de usuario o contraseña incorrectos.")
+    with st.form(key='login_form'):
+        username = st.text_input("Nombre de usuario")
+        password = st.text_input("Contraseña", type="password")
+        submit_button = st.form_submit_button(label='Iniciar sesión')
+        if submit_button:
+            if username == user_saved and password == pass_saved:
+                st.session_state['logged_in'] = True
+                st.success("¡Has iniciado sesión correctamente!")
+            else:
+                st.error("Nombre de usuario o contraseña incorrectos.")
 
 # Secciones de la aplicación
 if choice == "Leisure":
@@ -146,27 +147,27 @@ elif choice == "Chatbot":
             elif msg['role'] == 'assistant':
                 message(msg['content'], is_user=False, key=f"bot_{i}")
 
-        # Entrada del usuario
-        usuario_input = st.text_input("Escribe tu mensaje:", key="input")
-
-        if st.button("Enviar"):
-            if usuario_input:
-                # Agregar el mensaje del usuario al historial
-                st.session_state['messages'].append({"role": "user", "content": usuario_input})
-                # Obtener respuesta del modelo utilizando todo el historial
-                respuesta = obtener_respuesta(st.session_state['messages'])
-                # Agregar la respuesta del asistente al historial
-                st.session_state['messages'].append({"role": "assistant", "content": respuesta})
-                # Actualizar la interfaz
-                # st.experimental_rerun()  # Puedes comentar esta línea si causa problemas
-            else:
-                st.warning("Por favor, escribe un mensaje.")
+        # Entrada del usuario con formulario
+        with st.form(key='chat_form'):
+            usuario_input = st.text_input("Escribe tu mensaje:", key="input")
+            submit_button = st.form_submit_button(label='Enviar')
+            if submit_button:
+                if usuario_input:
+                    # Agregar el mensaje del usuario al historial
+                    st.session_state['messages'].append({"role": "user", "content": usuario_input})
+                    # Obtener respuesta del modelo utilizando todo el historial
+                    respuesta = obtener_respuesta(st.session_state['messages'])
+                    # Agregar la respuesta del asistente al historial
+                    st.session_state['messages'].append({"role": "assistant", "content": respuesta})
+                else:
+                    st.warning("Por favor, escribe un mensaje.")
 
         # Botón para cerrar sesión
-        if st.button("Cerrar sesión"):
-            st.session_state['logged_in'] = False
-            st.success("Has cerrado sesión.")
-            # st.experimental_rerun()  # Puedes comentar esta línea si causa problemas
+        with st.form(key='logout_form'):
+            submit_button = st.form_submit_button(label='Cerrar sesión')
+            if submit_button:
+                st.session_state['logged_in'] = False
+                st.success("Has cerrado sesión.")
 
 elif choice == "Análisis":
     st.header("Análisis de Entrenamiento Deportivo")
