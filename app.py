@@ -46,7 +46,7 @@ openai.api_version = "2023-12-01-preview"
 openai.api_key = api_key
 
 # Definir el prompt de sistema
-system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios. Haz que tus respuestas sean lo más cortas y óptimas possibles en número de tokens y palabras. "
+system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios."
 
 # Aplicar estilos CSS personalizados
 def local_css():
@@ -123,7 +123,9 @@ def mostrar_login():
 # Secciones de la aplicación
 if choice == "Leisure":
     st.header("Actividades de Ocio")
-    # Tu código para la sección Leisure
+    # Añadir imagen 'estrella-damm.jpg'
+    st.image('estrella-damm.jpg', caption='Estrella Damm', use_column_width=True)
+    # Puedes añadir más contenido aquí si lo deseas
 
 elif choice == "ReFill":
     st.header("Consulta los litros que quedan o faltan en tu suscripción")
@@ -225,9 +227,6 @@ elif choice == "Análisis":
     fig_zone_pie = px.pie(zone_counts, names='Zona de Entrenamiento', values='Tiempo en Minutos',
                           title='Tiempo Total en Cada Zona de Entrenamiento')
     st.plotly_chart(fig_zone_pie)
-
-    # Mostrar imagen (opcional)
-    # st.image('ruta_a_tu_imagen.jpg', caption='Imagen de ejemplo')
 
 # Footer con estilo actualizado
 st.markdown("""
