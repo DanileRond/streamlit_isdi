@@ -93,7 +93,7 @@ def obtener_respuesta(messages, model='gpt4onennisi'):
         respuesta = cliente.chat.completions.create(
             model=model,
             messages=messages,
-            max_tokens=1000,
+            max_tokens=300,
             tool_choice=None,
         )
         respuesta = respuesta.choices[0].message.content  # Extraer el contenido del mensaje
@@ -139,8 +139,14 @@ elif choice == "ReFill":
 
     st.plotly_chart(fig)
 
-    # Mostrar imagen (opcional)
-    # st.image('ruta_a_tu_imagen.jpg', caption='Imagen de ejemplo')
+    # Tabla con plan de hidratación para una maratón
+    st.subheader("Plan de Hidratación para Maratón")
+    plan_hidratacion = pd.DataFrame({
+        'Kilómetro': [5, 10, 15, 20, 25, 30, 35, 40],
+        'Bebida': ['Agua', 'Bebida Isotónica', 'Agua', 'Gel Energético', 'Agua', 'Bebida Isotónica', 'Agua', 'Gel Energético'],
+        'Cantidad (ml)': [200, 250, 200, 30, 200, 250, 200, 30]
+    })
+    st.table(plan_hidratacion)
 
 elif choice == "Chatbot":
     st.header("Coach GPT")
@@ -212,10 +218,13 @@ elif choice == "Análisis":
                            title='Calorías Quemadas Durante el Entrenamiento')
     st.plotly_chart(fig_calories)
 
-    # Gráfico de zonas de entrenamiento
-    fig_zone = px.scatter(df_analysis, x='Tiempo', y='Frecuencia Cardíaca', color='Zona de Entrenamiento',
-                          title='Zonas de Entrenamiento')
-    st.plotly_chart(fig_zone)
+    # Gráfico de zonas de entrenamiento (Gráfico de pastel)
+    st.subheader("Distribución de Zonas de Entrenamiento")
+    zone_counts = df_analysis['Zona de Entrenamiento'].value_counts().reset_index()
+    zone_counts.columns = ['Zona de Entrenamiento', 'Tiempo en Minutos']
+    fig_zone_pie = px.pie(zone_counts, names='Zona de Entrenamiento', values='Tiempo en Minutos',
+                          title='Tiempo Total en Cada Zona de Entrenamiento')
+    st.plotly_chart(fig_zone_pie)
 
     # Mostrar imagen (opcional)
     # st.image('ruta_a_tu_imagen.jpg', caption='Imagen de ejemplo')
