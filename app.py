@@ -46,7 +46,7 @@ openai.api_version = "2023-12-01-preview"
 openai.api_key = api_key
 
 # Definir el prompt de sistema
-system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios. Utiliza el mínimo número de palabras y más óptimo para dar tu explicación."
+system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios. Haz que tus respuestas sean lo más cortas y óptimas possibles en número de tokens y palabras. "
 
 # Aplicar estilos CSS personalizados
 def local_css():
@@ -127,7 +127,20 @@ if choice == "Leisure":
 
 elif choice == "ReFill":
     st.header("Consulta los litros que quedan o faltan en tu suscripción")
-    # Tu código para la sección ReFill
+    # Datos de ejemplo para el gráfico de consumo
+    df_consumo = pd.DataFrame({
+        'Bebida': ['Proteica', 'Mineral'],
+        'Consumo (litros)': [12, 8]
+    })
+
+    # Crear gráfico de barras
+    fig = px.bar(df_consumo, x='Bebida', y='Consumo (litros)', color='Bebida',
+                 title='Consumo de Bebidas')
+
+    st.plotly_chart(fig)
+
+    # Mostrar imagen (opcional)
+    # st.image('ruta_a_tu_imagen.jpg', caption='Imagen de ejemplo')
 
 elif choice == "Chatbot":
     st.header("Coach GPT")
@@ -176,7 +189,36 @@ elif choice == "Chatbot":
 
 elif choice == "Análisis":
     st.header("Análisis de Entrenamiento Deportivo")
-    # Tu código para la sección Análisis
+    # Datos de ejemplo para el análisis
+    time = pd.date_range(start='2023-01-01 10:00', periods=60, freq='T')  # 60 minutos
+    heart_rate = np.random.normal(150, 10, size=(60,))
+    calories = np.cumsum(np.random.normal(10, 2, size=(60,)))
+    training_zone = np.random.choice(['Zona 1', 'Zona 2', 'Zona 3', 'Zona 4', 'Zona 5'], size=(60,))
+
+    df_analysis = pd.DataFrame({
+        'Tiempo': time,
+        'Frecuencia Cardíaca': heart_rate,
+        'Calorías Acumuladas': calories,
+        'Zona de Entrenamiento': training_zone
+    })
+
+    # Gráfico de frecuencia cardíaca
+    fig_hr = px.line(df_analysis, x='Tiempo', y='Frecuencia Cardíaca',
+                     title='Frecuencia Cardíaca Durante el Entrenamiento')
+    st.plotly_chart(fig_hr)
+
+    # Gráfico de calorías quemadas
+    fig_calories = px.line(df_analysis, x='Tiempo', y='Calorías Acumuladas',
+                           title='Calorías Quemadas Durante el Entrenamiento')
+    st.plotly_chart(fig_calories)
+
+    # Gráfico de zonas de entrenamiento
+    fig_zone = px.scatter(df_analysis, x='Tiempo', y='Frecuencia Cardíaca', color='Zona de Entrenamiento',
+                          title='Zonas de Entrenamiento')
+    st.plotly_chart(fig_zone)
+
+    # Mostrar imagen (opcional)
+    # st.image('ruta_a_tu_imagen.jpg', caption='Imagen de ejemplo')
 
 # Footer con estilo actualizado
 st.markdown("""
