@@ -46,7 +46,7 @@ openai.api_version = "2023-12-01-preview"
 openai.api_key = api_key
 
 # Definir el prompt de sistema
-system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios."
+system_prompt = "Eres CoachGPT, un asistente virtual experto en entrenamiento y nutrición deportiva. Proporcionas consejos personalizados y motivación a los usuarios. Intenta dar respuestas cortas, reduciendo el número de tokens/palabras necesarias en tu explicación."
 
 # Aplicar estilos CSS personalizados
 def local_css():
