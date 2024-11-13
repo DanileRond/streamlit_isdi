@@ -131,10 +131,12 @@ if choice == "Leisure":
 
 elif choice == "ReFill":
     st.header("Consulta los litros que quedan o faltan en tu suscripción")
+    st.image('istockphoto-1324706577-612x612.jpg', caption='QR')  # Ajusta el ancho según necesites
+
     # Datos de ejemplo para el gráfico de consumo
     df_consumo = pd.DataFrame({
-        'Bebida': ['Proteica', 'Mineral'],
-        'Consumo (litros)': [12, 8]
+        'Bebida': ['Proteica', 'Hidratos - Mineral'],
+        'Consumo (litros)': [10, 8]
     })
 
     # Crear gráfico de barras
