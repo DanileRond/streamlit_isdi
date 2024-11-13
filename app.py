@@ -126,8 +126,12 @@ def mostrar_login():
 if choice == "Leisure":
     st.header("Actividades de Ocio")
     # Añadir imagen 'estrella-damm.jpg'
-    st.image('estrella-damm.jpg', caption='Estrella Damm', use_column_width=True)
-    st.image('charlixcxbarceloneta.jpeg', caption='Primavera Sound', use_column_width=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image('estrella-damm.jpg', caption='Estrella Damm', width=250)  # Ajusta el ancho según necesites
+
+    with col2:
+        st.image('charlixcxbarceloneta.jpeg', caption='Primavera Sound', width=250)  # Ajusta el ancho según necesites
     # Puedes añadir más contenido aquí si lo deseas
 
 elif choice == "ReFill":
