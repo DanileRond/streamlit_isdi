@@ -130,7 +130,7 @@ if choice == "Leisure":
     # Puedes añadir más contenido aquí si lo deseas
 
 elif choice == "ReFill":
-    st.header("Consulta los litros que quedan o faltan en tu suscripción")
+    st.header("Consumo y suscripción ")
     st.image('istockphoto-1324706577-612x612.jpg', caption='QR')  # Ajusta el ancho según necesites
 
     # Datos de ejemplo para el gráfico de consumo
