@@ -124,13 +124,13 @@ def mostrar_login():
 
 # Secciones de la aplicación
 if choice == "Leisure":
-    st.header("Actividades de Ocio")
+    st.markdown("<h2 style='text-align: center;'>Actividades de Ocio</h2>", unsafe_allow_html=True)
     # Añadir imagen 'estrella-damm.jpg'
     st.image('MixCollage-13-Nov-2024-04-03-PM-2513.jpg', caption='Leisure')  # Ajusta el ancho según necesites
     # Puedes añadir más contenido aquí si lo deseas
 
 elif choice == "ReFill":
-    st.header("Consumo y suscripción ")
+    st.markdown("<h2 style='text-align: center;'>Consumo y suscripción</h2>", unsafe_allow_html=True)
     st.image('istockphoto-1324706577-612x612.jpg', caption='QR')  # Ajusta el ancho según necesites
 
     # Datos de ejemplo para el gráfico de consumo
@@ -155,7 +155,7 @@ elif choice == "ReFill":
     st.table(plan_hidratacion)
 
 elif choice == "Chatbot":
-    st.header("Coach GPT")
+    st.markdown("<h2 style='text-align: center;'>Coach GPT</h2>", unsafe_allow_html=True)
 
     # Verificar si el usuario ha iniciado sesión
     if 'logged_in' not in st.session_state:
@@ -200,7 +200,7 @@ elif choice == "Chatbot":
             st.rerun()  # Forzar recarga del script
 
 elif choice == "Análisis":
-    st.header("Análisis de Entrenamiento Deportivo")
+    st.markdown("<h2 style='text-align: center;'>Análisis de Entrenamiento Deportivo</h2>", unsafe_allow_html=True)
     # Datos de ejemplo para el análisis
     time = pd.date_range(start='2023-01-01 10:00', periods=60, freq='T')  # 60 minutos
     heart_rate = np.random.normal(150, 10, size=(60,))
