@@ -61,7 +61,7 @@ local_css()
 # Título con estilo actualizado
 st.markdown("""
     <div class="main-title">
-        <h1>ReFill ReTrain ReJoin</h1>
+        <h1>WellDamm</h1>
     </div>
     """, unsafe_allow_html=True)
 
