@@ -128,10 +128,10 @@ if choice == "Leisure":
     # Añadir imagen 'estrella-damm.jpg'
     col1, col2 = st.columns(2)
     with col1:
-        st.image('estrella-damm.jpg', caption='Estrella Damm', width=250)  # Ajusta el ancho según necesites
+        st.image('estrella-damm.jpg', caption='Estrella Damm', width=500)  # Ajusta el ancho según necesites
 
     with col2:
-        st.image('charlixcxbarceloneta.jpeg', caption='Primavera Sound', width=250)  # Ajusta el ancho según necesites
+        st.image('charlixcxbarceloneta.jpeg', caption='Primavera Sound', width=150)  # Ajusta el ancho según necesites
     # Puedes añadir más contenido aquí si lo deseas
 
 elif choice == "ReFill":
