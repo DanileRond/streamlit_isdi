@@ -52,7 +52,9 @@ system_prompt = "Eres CoachGPT (DEMO), un asistente virtual experto en entrenami
 def local_css():
     st.markdown("""
         <style>
-            /* Tu CSS personalizado */
+            .main-title {
+                text-align: center;
+            }
         </style>
         """, unsafe_allow_html=True)
 
@@ -125,6 +127,7 @@ if choice == "Leisure":
     st.header("Actividades de Ocio")
     # Añadir imagen 'estrella-damm.jpg'
     st.image('estrella-damm.jpg', caption='Estrella Damm', use_column_width=True)
+    st.image('charlixcxbarceloneta.jpeg', caption='Primavera Sound', use_column_width=True)
     # Puedes añadir más contenido aquí si lo deseas
 
 elif choice == "ReFill":
